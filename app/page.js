@@ -1,8 +1,8 @@
-import { Inter } from '@next/font/google'
+import https from 'https';
 import styles from './page.module.css'
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div>Hello homepage</div>
+    <div>Home page</div>
   )
 }
