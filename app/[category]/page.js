@@ -1,19 +1,15 @@
 import https from 'https';
 import { storeName, storeToken } from '@/utils/shopify';
 import ProductsList from './ProductsList';
-import { isEmpty } from 'lodash';
 
 async function fetchData(categoryHandle) {
-  if (isEmpty(categoryHandle)) {
-    return {};
-  }
-  const selectedCategory = await fetchCategory(categoryHandle ?? null);
-  const productsList = await fetchProducts(selectedCategory.id ?? null);
-  return { 'category': selectedCategory, 'products': productsList } ?? {};
+  const selectedCategory = await fetchCategory(categoryHandle);
+  const productsList = await fetchProducts(selectedCategory.id);
+  return { 'category': selectedCategory ?? null, 'products': productsList ?? null };
 }
 
 export default async function Category({ params }) {
-  const data = await fetchData(params.category ?? null);
+  const data = await fetchData(params.category);
   return (
     <>
       <h1>{data.category.title}</h1>
@@ -25,9 +21,6 @@ export default async function Category({ params }) {
 
 //
 async function fetchCategory(categoryHandle) {
-  if (isEmpty(categoryHandle)) {
-    return {};
-  }
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
@@ -51,9 +44,6 @@ async function fetchCategory(categoryHandle) {
 }
 
 async function fetchProducts(collectionId) {
-  if (isEmpty(collectionId)) {
-    return {};
-  }
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
