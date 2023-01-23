@@ -1,9 +1,11 @@
 .logo {
   margin-bottom: .25rem;
 }
+
 .logo img {
   display: block;
 }
+
 .menu {
   padding: 0 2rem;
   display: flex;
@@ -13,6 +15,7 @@
   height: 60px;
   background-color: #ffffff80;
 }
+
 .menu a:link {
   margin-right: 20px;
 }

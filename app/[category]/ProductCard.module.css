@@ -3,16 +3,18 @@
   width: 100%;
   max-width: 600px;
 }
+
 .productCard img {
   max-width: 100%;
   height: auto;
   object-fit: cover;
 }
+
 .productName {
   position: absolute;
   right: 0;
   top: 0;
-  background-color:#333;
+  background-color: #333;
   color: #fff;
   line-height: 0.6;
   padding: 0 4px;
