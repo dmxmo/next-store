@@ -25,8 +25,8 @@ async function getCategories() {
 
 export default async function Header() {
   const categories = await getCategories();
-  if (!isEmpty(categories)) {
-    return
+  if (isEmpty(categories)) {
+    return null;
   }
 
   let menuLinks = [(<Link key='home' href="/">HOME</Link>)];
