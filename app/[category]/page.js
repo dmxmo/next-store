@@ -5,7 +5,17 @@ import { isEmpty } from "lodash";
 
 async function fetchData(categoryHandle) {
   const selectedCategory = await fetchCategory(categoryHandle);
+  if (isEmpty(selectedCategory)) {
+    return {};
+  }
+
+  // fetch products
   const productsList = await fetchProducts(selectedCategory.id);
+  if (isEmpty(productsList)) {
+    return {};
+  }
+
+  // return data
   return { 'category': selectedCategory, 'products': productsList };
 }
 
