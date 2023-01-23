@@ -24,17 +24,18 @@ async function getCategories() {
 }
 
 export default async function Header() {
-  let menuLinks = [(<Link key='home' href="/">HOME</Link>)];
-
   const categories = await getCategories();
   if (!isEmpty(categories)) {
-    categories.forEach(function ({ handle, title }) {
-      menuLinks.push(<Link key={handle} href={handle}>
-        {title}
-      </Link>)
-    });
+    return
   }
-  
+
+  let menuLinks = [(<Link key='home' href="/">HOME</Link>)];
+  categories.forEach(function ({ handle, title }) {
+    menuLinks.push(<Link key={handle} href={handle}>
+      {title}
+    </Link>)
+  });
+
   return (
     <div className={styles.header}>
       <div className={styles.logo}>
