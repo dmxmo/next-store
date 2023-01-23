@@ -5,16 +5,17 @@ import ProductsList from './ProductsList';
 async function fetchData(categoryHandle) {
   const selectedCategory = await fetchCategory(categoryHandle);
   const productsList = await fetchProducts(selectedCategory.id);
-  return { 'category': selectedCategory ?? null, 'products': productsList ?? null };
+  return { 'category': selectedCategory, 'products': productsList };
 }
 
 export default async function Category({ params }) {
+
   const data = await fetchData(params.category);
   return (
     <>
       <h1>{data.category.title}</h1>
       <p>{data.category.body_html}</p>
-      <ProductsList {...data} />
+      {/* <ProductsList {...data} /> */}
     </>
   )
 }
