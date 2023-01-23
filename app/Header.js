@@ -19,7 +19,7 @@ async function getCategories() {
     agent
   });
   const data = await res.json();
-  return data.custom_collections ?? [];
+  return data?.custom_collections;
 }
 
 export default async function Header() {
