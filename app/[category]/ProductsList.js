@@ -2,13 +2,13 @@
 import styles from "./ProductsList.module.css";
 import ProductCard from "./ProductCard";
 import { isEmpty } from "lodash";
-export default function ProductsList({ products, category }) {
-  if (isEmpty(products) || isEmpty(products)) {
+export default function ProductsList(props) {
+  if (isEmpty(props.products) || isEmpty(props.category)) {
     return <p>No items found.</p>;
   }
-  const productCards = products.map(product => {
+  const productCards = props.products.map(product => {
     return (
-      <ProductCard key={product.id} product={product} url={`${category.handle}/${product.handle}_${product.id}`} />
+      <ProductCard key={product.id} product={product} url={`${props.category.handle}/${product.handle}_${product.id}`} />
     )
   });
   return (
