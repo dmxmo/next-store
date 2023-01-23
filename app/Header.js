@@ -1,13 +1,14 @@
 import https from 'https';
 import styles from './Header.module.css'
 import Link from 'next/link';
+import Image from 'next/image';
 import { storeName, storeToken } from '@/utils/shopify';
 
 async function getCategories() {
   const agent = new https.Agent({
-    rejectUnauthorized: false
+    rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
-  
+
   const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=handle,title`;
   const res = await fetch(url, {
     method: 'GET',
@@ -22,18 +23,30 @@ async function getCategories() {
 }
 
 export default async function Header() {
-  const categories = await getCategories();
+  let menuLinks = [(<Link key='home' href="/">HOME</Link>)];
 
-  const categoryLinks = categories.map(({ handle, title }) => (
-    <Link key={handle} href={handle}>
+  const categories = await getCategories();
+  categories.forEach(function ({ handle, title }) {
+    menuLinks.push(<Link key={handle} href={handle}>
       {title}
-    </Link>
-  ))
+    </Link>)
+  });
 
   return (
-    <div className={styles.headerMenu}>
-      <Link href="/">HOME</Link>
-      {categoryLinks}
+    <div className={styles.header}>
+      <div className={styles.logo}>
+        <Image
+          src="/next.svg"
+          alt="Next.js Logo"
+          width={180}
+          height={37}
+          priority
+        />
+        <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
+      </div>
+      <div className={styles.menu}>
+        {menuLinks}
+      </div>
     </div>
   )
 }

@@ -1,0 +1,9 @@
+.productsListContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 0px;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  padding: 0px;
+  margin: 0px;
+}

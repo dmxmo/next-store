@@ -1,0 +1,64 @@
+import https from 'https';
+import { storeName, storeToken } from '@/utils/shopify';
+import ProductsList from './ProductsList';
+
+async function fetchData(categoryHandle) {
+  const selectedCategory = await getCategory(categoryHandle);
+  const productsList = await getProducts(selectedCategory.id);
+  return {'category': selectedCategory, 'products': productsList} ?? {};
+}
+
+export default async function Category({ params }) {
+  const data = await fetchData(params.category);
+  return (
+    <>
+      <h1>{data.category.title}</h1>
+      <p>{data.category.body_html}</p>
+      <ProductsList products={data.products} />
+    </>
+  )
+}
+
+//
+async function getCategory(categoryHandle) {
+  const agent = new https.Agent({
+    rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
+  });
+
+  // make a request
+  const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=id,handle,title,body_html`;
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Access-Token': `${storeToken}`
+    },
+    agent
+  });
+  const data = await res.json();
+
+  // find the selected category by handle
+  const selectedCategory = data.custom_collections.find(category => category.handle === categoryHandle);
+
+  return selectedCategory ?? {};
+}
+
+async function getProducts(collectionId) {
+  const agent = new https.Agent({
+    rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
+  });
+
+  // make a request
+  const url = `https://${storeName}.myshopify.com/admin/api/2023-01/products.json?collection_id=${collectionId}&fields=id,title,handle,description,image`;
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Access-Token': `${storeToken}`,
+    },
+    agent
+  });
+  const data = await res.json();
+  
+  return data.products ?? [];
+}
