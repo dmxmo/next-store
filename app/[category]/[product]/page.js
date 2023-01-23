@@ -27,9 +27,9 @@ async function fetchProduct(id) {
 export default async function ProductPage({ params }) {
  
   const id = params.product.split('_').pop();
-  const product = await fetchProduct(id);
-
-  if (isEmpty(params.product)) {
+  
+  const product = await fetchProduct(id ?? null);
+  if (isEmpty(product)) {
     return null;
   }
   const checkoutUrl = `https://${storeName}.myshopify.com/cart/${product.variants[0].id}:1`;
