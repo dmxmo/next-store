@@ -1,6 +1,7 @@
 import https from 'https';
 import { storeName, storeToken } from '@/utils/shopify';
 import ProductsList from './ProductsList';
+import { isEmpty } from "lodash";
 
 async function fetchData(categoryHandle) {
   const selectedCategory = await fetchCategory(categoryHandle);
