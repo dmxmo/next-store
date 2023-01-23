@@ -11,6 +11,9 @@ async function fetchData(categoryHandle) {
 export default async function Category({ params }) {
   
   const data = await fetchData(params.category);
+  if (isEmpty(data)) {
+    return null;
+  }
   return (
     <>
       <h1>{data.category.title}</h1>
