@@ -3,9 +3,9 @@ import { storeName, storeToken } from '@/utils/shopify';
 import ProductsList from './ProductsList';
 
 async function fetchData(categoryHandle) {
-  const selectedCategory = await getCategory(categoryHandle);
-  const productsList = await getProducts(selectedCategory.id);
-  return {'category': selectedCategory, 'products': productsList} ?? {};
+  const selectedCategory = await fetchCategory(categoryHandle);
+  const productsList = await fetchProducts(selectedCategory.id);
+  return { 'category': selectedCategory, 'products': productsList } ?? {};
 }
 
 export default async function Category({ params }) {
@@ -14,13 +14,13 @@ export default async function Category({ params }) {
     <>
       <h1>{data.category.title}</h1>
       <p>{data.category.body_html}</p>
-      <ProductsList products={data.products} />
+      <ProductsList {...data} />
     </>
   )
 }
 
 //
-async function getCategory(categoryHandle) {
+async function fetchCategory(categoryHandle) {
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
@@ -43,7 +43,7 @@ async function getCategory(categoryHandle) {
   return selectedCategory ?? {};
 }
 
-async function getProducts(collectionId) {
+async function fetchProducts(collectionId) {
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
@@ -59,6 +59,6 @@ async function getProducts(collectionId) {
     agent
   });
   const data = await res.json();
-  
+
   return data.products ?? [];
 }
