@@ -1,0 +1,7 @@
+.todo li {
+  margin-left: 1.25rem;
+}
+.todo li a {
+  color: #666;
+  text-decoration: underline;
+}
