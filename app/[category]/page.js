@@ -35,9 +35,9 @@ async function fetchCategory(categoryHandle) {
 export default async function Category({ params }) {
   // const category = await fetchCategory(params?.category);
 
-  if (isEmpty(category)) {
-    return (<div>Collection not found</div>)
-  }
+  // if (isEmpty(category)) {
+  //   return (<div>Collection not found</div>)
+  // }
   return (
     <>
     <h1>{params.category}</h1>
