@@ -17,8 +17,8 @@ async function getCategories() {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
-    // cache: 'no-cache', // cache but revalidate every 10 seconds
-    next: { revalidate: 10 },
+    // cache: 'no-cache', // static menu content
+    // next: { revalidate: 10 },
     agent
   });
   const data = await res.json();
