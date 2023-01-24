@@ -17,8 +17,8 @@ async function fetchCategory(categoryHandle) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
-    cache: 'no-cache',
-    // next: { revalidate: 10 },
+    // cache: 'no-cache',
+    next: { revalidate: 10 },
     agent
   });
   const data = await res.json();
@@ -33,17 +33,16 @@ async function fetchCategory(categoryHandle) {
 }
 
 export default async function Category({ params }) {
-  // const category = await fetchCategory(params?.category);
+  const category = await fetchCategory(params?.category);
 
-  // if (isEmpty(category)) {
-  //   return (<div>Collection not found</div>)
-  // }
+  if (isEmpty(category)) {
+    return (<div>Collection not found</div>)
+  }
   return (
     <>
-    <h1>{params.category}</h1>
-      {/* <h1>{category?.title}</h1>
+      <h1>{category?.title}</h1>
       <p>{category?.body_html}</p>
-      <ProductsList category={category} /> */}
+      {/* <ProductsList category={category} /> */}
     </>
   )
 }
