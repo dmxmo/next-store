@@ -22,9 +22,9 @@ export default async function Category({ params }) {
   }
   return (
     <>
-      <h1>{data.category.title}</h1>
-      <p>{data.category.body_html}</p>
-      <ProductsList {...data} />
+      <h1>{data.category?.title}</h1>
+      <p>{data.category?.body_html}</p>
+      {/* <ProductsList {...data} /> */}
     </>
   )
 }
