@@ -17,28 +17,42 @@ async function fetchProduct(id) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`,
     },
+    cache: 'no-cache',
     agent
   });
   const data = await res.json();
 
-  return data.product ?? [];
+  return data?.product;
 }
 
 export default async function ProductPage({ params }) {
- 
-  const id = params.product.split('_').pop();
-  
-  const product = await fetchProduct(id ?? null);
-  const checkoutUrl = `https://${storeName}.myshopify.com/cart/${product.variants[0].id}:1`;
+
+  // get id from the url
+  const id = params?.product.split('_').pop();
+  if (isEmpty(id)) {
+    return (<div>Product not found</div>)
+  }
+
+  // fetch product
+  const product = await fetchProduct(id);
+
+  // create buy button
+  const variantId = product?.variants[0]?.id;
+  let buyButton = null;
+  if (variantId) {
+    const checkoutUrl = `https://${storeName}.myshopify.com/cart/${variantId}:1`;
+    buyButton = <a href={checkoutUrl}><button type="button" className={styles.button}>PURCHASE</button></a>;
+  }
+
   return (
     <>
       <div>
-        <h1 className={styles.title}>{product.title}</h1>
-        <p>{product.body_html}</p>
-        <h3 className={styles.price}>${product.variants[0].price}</h3>
-        <a href={checkoutUrl}><button type="button" className={styles.button}>PURCHASE</button></a>
+        <h1 className={styles.title}>{product?.title}</h1>
+        <p>{product?.body_html}</p>
+        <h3 className={styles.price}>${product?.variants[0]?.price}</h3>
+        {buyButton}
       </div>
-      <Image src={product.image.src} width={product.image.width} height={product.image.height} alt={product.title} />
+      <Image src={product?.image?.src} width={product?.image?.width} height={product?.image?.height} alt={product?.title} />
     </>
   )
 }

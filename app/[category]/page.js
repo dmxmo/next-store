@@ -8,18 +8,18 @@ async function fetchData(categoryHandle) {
   const selectedCategory = await fetchCategory(categoryHandle);
 
   // fetch products
-  const productsList = await fetchProducts(selectedCategory.id);
+  const productsList = await fetchProducts(selectedCategory?.id);
 
   // return data
   return { 'category': selectedCategory, 'products': productsList };
 }
 
 export default async function Category({ params }) {
-  const data = await fetchData(params.category);
+  const data = await fetchData(params?.category);
   return (
     <>
-      <h1>{data.category.title}</h1>
-      <p>{data.category.body_html}</p>
+      <h1>{data?.category?.title}</h1>
+      <p>{data?.category?.body_html}</p>
       <ProductsList {...data} />
     </>
   )
@@ -39,14 +39,15 @@ async function fetchCategory(categoryHandle) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
+    cache: 'no-cache',
     agent
   });
   const data = await res.json();
 
   // find the selected category by handle
-  const selectedCategory = data.custom_collections.find(category => category.handle === categoryHandle);
+  const selectedCategory = data?.custom_collections.find(category => category?.handle === categoryHandle);
 
-  return selectedCategory ?? {};
+  return selectedCategory;
 }
 
 async function fetchProducts(collectionId) {
@@ -62,9 +63,10 @@ async function fetchProducts(collectionId) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`,
     },
+    cache: 'no-cache',
     agent
   });
   const data = await res.json();
 
-  return data.products ?? [];
+  return data?.products;
 }

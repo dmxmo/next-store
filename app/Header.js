@@ -3,7 +3,6 @@ import styles from './Header.module.css'
 import Link from 'next/link';
 import Image from 'next/image';
 import { storeName, storeToken } from '@/utils/shopify';
-import { isEmpty } from 'lodash';
 
 async function getCategories() {
   const agent = new https.Agent({
@@ -17,10 +16,11 @@ async function getCategories() {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
+    cache: 'no-cache',
     agent
   });
   const data = await res.json();
-  return data.custom_collections;
+  return data?.custom_collections;
 }
 
 export default async function Header() {
