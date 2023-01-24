@@ -18,6 +18,7 @@ async function getCategories() {
       'X-Shopify-Access-Token': `${storeToken}`
     },
     cache: 'no-cache',
+    next: { revalidate: 10 },
     agent
   });
   const data = await res.json();
@@ -28,13 +29,13 @@ export default async function Header() {
   const categories = await getCategories();
   let menuLinks = [(<Link key='home' href="/">HOME</Link>)];
 
-  // if (!isEmpty(categories)) {
-    categories.forEach(function (category) {
-      menuLinks.push(<Link key={category?.handle} href={category?.handle}>
-        {category?.title}
+  if (!isEmpty(categories)) {
+    categories.forEach(function ({ handle, title }) {
+      menuLinks.push(<Link key={handle} href={handle}>
+        {title}
       </Link>)
     });
-  // }
+  }
 
   return (
     <div className={styles.header}>
