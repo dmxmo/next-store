@@ -17,7 +17,8 @@ async function fetchProduct(id) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`,
     },
-    cache: 'no-cache',
+    // cache: 'no-cache', // !STATIC FOR NOW
+    // next: { revalidate: 60 },
     agent
   });
   const data = await res.json();

@@ -17,7 +17,7 @@ async function fetchCategory(categoryHandle) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
-    // cache: 'no-cache',
+    // cache: 'no-cache', // static generation content
     // next: { revalidate: 10 },
     agent
   });
@@ -42,30 +42,7 @@ export default async function Category({ params }) {
     <>
       <h1>{category?.title}</h1>
       <p>{category?.body_html}</p>
-      {/* <ProductsList {...data} /> */}
+      <ProductsList category={category} />
     </>
   )
-}
-
-
-
-async function fetchProducts(collectionId) {
-  const agent = new https.Agent({
-    rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
-  });
-
-  // make a request
-  const url = `https://${storeName}.myshopify.com/admin/api/2023-01/products.json?collection_id=${collectionId}&fields=id,title,handle,description,image`;
-  const res = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Shopify-Access-Token': `${storeToken}`,
-    },
-    cache: 'no-cache',
-    agent
-  });
-  const data = await res.json();
-
-  return data?.products;
 }
