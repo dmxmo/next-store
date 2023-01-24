@@ -3,32 +3,6 @@ import { storeName, storeToken } from '@/utils/shopify';
 import ProductsList from './ProductsList';
 import { isEmpty } from "lodash";
 
-async function fetchData(categoryHandle) {
-  // fetch category
-  const selectedCategory = await fetchCategory(categoryHandle);
-
-  // fetch products
-  const productsList = await fetchProducts(selectedCategory?.id);
-
-  // return data
-  return { 'category': selectedCategory, 'products': productsList };
-}
-
-export default async function Category({ params }) {
-  const data = await fetchData(params?.category);
-
-  if (isEmpty(data.category)) {
-    return (<div>Collection not found</div>)
-  }
-  return (
-    <>
-      <h1>{data.category?.title}</h1>
-      <p>{data.category?.body_html}</p>
-      {/* <ProductsList {...data} /> */}
-    </>
-  )
-}
-
 //
 async function fetchCategory(categoryHandle) {
   const agent = new https.Agent({
@@ -49,10 +23,30 @@ async function fetchCategory(categoryHandle) {
   const data = await res.json();
 
   // find the selected category by handle
-  const selectedCategory = data?.custom_collections.find(category => category?.handle === categoryHandle);
-
+  let selectedCategory = null;
+  if (!isEmpty(data.custom_collections)) {
+    selectedCategory = data.custom_collections.find(category => category?.handle === categoryHandle);
+  }
+  
   return selectedCategory;
 }
+
+export default async function Category({ params }) {
+  const category = await fetchCategory(params?.category);
+
+  if (isEmpty(category)) {
+    return (<div>Collection not found</div>)
+  }
+  return (
+    <>
+      <h1>{category?.title}</h1>
+      <p>{category?.body_html}</p>
+      {/* <ProductsList {...data} /> */}
+    </>
+  )
+}
+
+
 
 async function fetchProducts(collectionId) {
   const agent = new https.Agent({
