@@ -15,12 +15,16 @@ async function fetchData(categoryHandle) {
 }
 
 export default async function Category({ params }) {
-  // const data = await fetchData(params?.category);
+  const data = await fetchData(params?.category);
+
+  if (isEmpty(data.category)) {
+    return (<div>Collection not found</div>)
+  }
   return (
-    <><h1>{params.category}</h1>
-      {/* <h1>{data?.category?.title}</h1> */}
-      {/* <p>{data?.category?.body_html}</p> */}
-      {/* <ProductsList {...data} /> */}
+    <>
+      <h1>{data.category.title}</h1>
+      <p>{data.category.body_html}</p>
+      <ProductsList {...data} />
     </>
   )
 }

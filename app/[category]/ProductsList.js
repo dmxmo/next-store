@@ -5,7 +5,7 @@ import { isEmpty } from "lodash";
 export default function ProductsList(props) {
   
   if (isEmpty(props.products)) {
-    return (<div>No products</div>)
+    return (<div>No products found</div>)
   }
   
   const productCards = props.products.map(product => {
