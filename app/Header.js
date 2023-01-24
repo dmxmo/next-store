@@ -2,6 +2,7 @@ import https from 'https';
 import styles from './Header.module.css'
 import Link from 'next/link';
 import Image from 'next/image';
+import { isEmpty } from 'lodash';
 import { storeName, storeToken } from '@/utils/shopify';
 
 async function getCategories() {
@@ -26,11 +27,14 @@ async function getCategories() {
 export default async function Header() {
   const categories = await getCategories();
   let menuLinks = [(<Link key='home' href="/">HOME</Link>)];
-  categories.forEach(function ({ handle, title }) {
-    menuLinks.push(<Link key={handle} href={handle}>
-      {title}
-    </Link>)
-  });
+
+  if (!isEmpty(categories)) {
+    categories.forEach(function ({ handle, title }) {
+      menuLinks.push(<Link key={handle} href={handle}>
+        {title}
+      </Link>)
+    });
+  }
 
   return (
     <div className={styles.header}>

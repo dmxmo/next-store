@@ -1,8 +1,12 @@
 import styles from "./ProductCard.module.css";
 import Image from 'next/image'
 import Link from "next/link";
+import { isEmpty } from "lodash";
 
 export default function ProductCard(props) {
+  if (isEmpty(props.product)) {
+    return '';
+  }
   return (
     <div className={styles.productCard}>
       <Link href={props.url}>
