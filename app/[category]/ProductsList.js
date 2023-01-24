@@ -18,7 +18,7 @@ async function fetchProducts(collectionId) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`,
     },
-    next: { revalidate: 300 }, // revalidate every 5 mins
+    next: { revalidate: 10 },
     agent
   });
   const data = await res.json();
