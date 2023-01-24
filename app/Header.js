@@ -20,15 +20,11 @@ async function getCategories() {
     agent
   });
   const data = await res.json();
-  return data?.custom_collections;
+  return data.custom_collections;
 }
 
 export default async function Header() {
   const categories = await getCategories();
-  if (isEmpty(categories)) {
-    return null;
-  }
-
   let menuLinks = [(<Link key='home' href="/">HOME</Link>)];
   categories.forEach(function ({ handle, title }) {
     menuLinks.push(<Link key={handle} href={handle}>

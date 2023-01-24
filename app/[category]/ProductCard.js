@@ -4,9 +4,6 @@ import Link from "next/link";
 import { isEmpty } from "lodash";
 
 export default function ProductCard(props) {
-  if (isEmpty(props.product) || isEmpty(props.url)) {
-    return null;
-  }
   return (
     <div className={styles.productCard}>
       <Link href={props.url}>

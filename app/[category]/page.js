@@ -4,35 +4,25 @@ import ProductsList from './ProductsList';
 import { isEmpty } from "lodash";
 
 async function fetchData(categoryHandle) {
+  // fetch category
   const selectedCategory = await fetchCategory(categoryHandle);
-  if (isEmpty(selectedCategory)) {
-    return {};
-  }
 
   // fetch products
   const productsList = await fetchProducts(selectedCategory.id);
-  if (isEmpty(productsList)) {
-    return {};
-  }
 
   // return data
   return { 'category': selectedCategory, 'products': productsList };
 }
 
 export default async function Category({ params }) {
-  return (<div>Test</div>)
-  
-  // const data = await fetchData(params.category);
-  // if (isEmpty(data)) {
-  //   return null;
-  // }
-  // return (
-  //   <>
-  //     <h1>{data.category.title}</h1>
-  //     <p>{data.category.body_html}</p>
-  //     <ProductsList {...data} />
-  //   </>
-  // )
+  const data = await fetchData(params.category);
+  return (
+    <>
+      <h1>{data.category.title}</h1>
+      <p>{data.category.body_html}</p>
+      <ProductsList {...data} />
+    </>
+  )
 }
 
 //
