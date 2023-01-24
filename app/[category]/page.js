@@ -20,7 +20,7 @@ export default async function Category({ params }) {
     <>
       <h1>{data?.category?.title}</h1>
       <p>{data?.category?.body_html}</p>
-      <ProductsList {...data} />
+      {/* <ProductsList {...data} /> */}
     </>
   )
 }
