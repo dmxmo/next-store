@@ -40,6 +40,7 @@ async function fetchCategory(categoryHandle) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
+    cache: 'no-cache',
     // next: { revalidate: 10 },
     agent
   });
@@ -65,7 +66,7 @@ export default async function Category({ params }) {
     <>
       <h1>{category?.title}</h1>
       <p>{category?.body_html}</p>
-      {/* <ProductsList category={category} /> */}
+      <ProductsList category={category} />
     </>
   )
 }
