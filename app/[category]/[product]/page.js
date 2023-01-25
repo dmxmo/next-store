@@ -13,7 +13,7 @@ export async function generateStaticParams({ params: { category } }) {
   const products = await fetchProducts(thisCategory?.id);
   return products?.map((product) => ({
     category: thisCategory?.handle,
-    product: product?.handle
+    product: `${product?.handle}_${product?.id}`
   }));
   
 }
