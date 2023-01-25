@@ -32,8 +32,7 @@ async function fetchProduct(id) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`,
     },
-    // cache: 'no-cache',
-    // next: { revalidate: 60 },
+    next: { revalidate: 300 },
     agent
   });
   const data = await res.json();
@@ -41,11 +40,9 @@ async function fetchProduct(id) {
   return data?.product;
 }
 
-export default async function ProductPage(props) {
-
-
+export default async function ProductPage({ params }) {
   // get id from the url
-  const id = props?.params?.product.split('_').pop();
+  const id = params?.product.split('_').pop();
   if (isEmpty(id)) {
     return (<div>Product not found</div>)
   }
