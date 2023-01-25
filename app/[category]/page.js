@@ -18,7 +18,7 @@ export async function fetchCategory(categoryHandle) {
       'X-Shopify-Access-Token': `${storeToken}`
     },
     // cache: 'no-cache',
-    next: { revalidate: 300 },
+    next: { revalidate: 10 },
     agent
   });
   const data = await res.json();
