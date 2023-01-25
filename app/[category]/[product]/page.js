@@ -12,7 +12,7 @@ export async function generateStaticParams({ params: { category } }) {
   const thisCategory = await fetchCategory(category);
   const products = await fetchProducts(thisCategory?.id);
   return products?.map((product) => ({
-    category: 'surrealism',
+    category: thisCategory?.handle,
     product: product?.handle
   }));
   
@@ -44,7 +44,7 @@ async function fetchProduct(id) {
 export default async function ProductPage({ params }) {
   // get id from the url
   const id = params?.product.split('_').pop();
-  
+
   // fetch product
   const product = await fetchProduct(id);
 
