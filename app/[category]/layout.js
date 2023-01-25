@@ -1,4 +1,3 @@
-import Header from '../Header'
 import { fetchCategories } from '../Header';
 
 // !IMPORTANT: not sure if this is a bug or feature
