@@ -19,7 +19,7 @@ export async function fetchProducts(collectionId) {
       'X-Shopify-Access-Token': `${storeToken}`,
     },
     // cache: 'no-cache',
-    next: { revalidate: 10 },
+    next: { revalidate: 300 },
     agent
   });
   const data = await res.json();

@@ -18,7 +18,7 @@ export async function fetchCategory(categoryHandle) {
       'X-Shopify-Access-Token': `${storeToken}`
     },
     // cache: 'no-cache',
-    next: { revalidate: 10 },
+    next: { revalidate: 300 },
     agent
   });
   const data = await res.json();
@@ -35,9 +35,6 @@ export async function fetchCategory(categoryHandle) {
 export default async function Category({ params }) {
   const category = await fetchCategory(params?.category);
 
-  if (isEmpty(category)) {
-    return (<div>Collection not found</div>)
-  }
   return (
     <>
       <h1>{category?.title}</h1>
