@@ -31,12 +31,8 @@ export default async function ProductsList(props) {
   // fetch products under the selected category
   const products = await fetchProducts(props.category?.id);
 
-  if (isEmpty(products)) {
-    return (<div>No products found</div>);
-  }
-
   // build product cards
-  const productCards = products.map(product => {
+  const productCards = products?.map(product => {
     const productUrl = (`${props?.category?.handle}/${product?.handle}_${product?.id}`);
     return (
       <ProductCard key={product?.id} url={productUrl} product={product} />
