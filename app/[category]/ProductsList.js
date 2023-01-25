@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 import { storeName, storeToken } from '@/utils/shopify';
 import { isEmpty } from "lodash";
 
-async function fetchProducts(collectionId) {
+export async function fetchProducts(collectionId) {
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
@@ -18,8 +18,8 @@ async function fetchProducts(collectionId) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`,
     },
-    cache: 'no-cache',
-    // next: { revalidate: 10 },
+    // cache: 'no-cache',
+    next: { revalidate: 10 },
     agent
   });
   const data = await res.json();

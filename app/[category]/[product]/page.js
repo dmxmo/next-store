@@ -3,7 +3,22 @@ import https from 'https';
 import Image from "next/image";
 import { storeName, storeToken } from '@/utils/shopify';
 import { isEmpty } from "lodash";
+import { fetchProducts } from "../ProductsList";
+import { fetchCategory } from "../page.js";
 
+//
+export async function generateStaticParams({ params: { category } }) {
+  // Note: params are passed down from the parent generateStaticParams() to here
+  const thisCategory = await fetchCategory(category);
+  const products = await fetchProducts(thisCategory?.id);
+  return products?.map((product) => ({
+    category: 'surrealism',
+    product: product?.handle
+  }));
+  
+}
+
+//
 async function fetchProduct(id) {
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
@@ -26,10 +41,11 @@ async function fetchProduct(id) {
   return data?.product;
 }
 
-export default async function ProductPage({ params }) {
+export default async function ProductPage(props) {
+
 
   // get id from the url
-  const id = params?.product.split('_').pop();
+  const id = props?.params?.product.split('_').pop();
   if (isEmpty(id)) {
     return (<div>Product not found</div>)
   }

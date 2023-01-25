@@ -5,12 +5,12 @@ import Image from 'next/image';
 import { isEmpty } from 'lodash';
 import { storeName, storeToken } from '@/utils/shopify';
 
-export async function getCategories() {
+export async function fetchCategories() {
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
 
-  const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=id,handle,title`;
+  const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=handle,title`;
   const res = await fetch(url, {
     method: 'GET',
     headers: {
@@ -25,7 +25,7 @@ export async function getCategories() {
 }
 
 export default async function Header() {
-  const categories = await getCategories();
+  const categories = await fetchCategories();
   let menuLinks = [(<Link key='home' href="/">HOME</Link>)];
 
   if (!isEmpty(categories)) {

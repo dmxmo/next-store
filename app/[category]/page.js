@@ -2,19 +2,33 @@ import https from 'https';
 import { storeName, storeToken } from '@/utils/shopify';
 import ProductsList from './ProductsList';
 import { isEmpty } from "lodash";
-import { getCategories } from '../Header';
+import { fetchCategories } from '../Header';
 
 //
-export async function generateStaticParams() {
-  const categories = await getCategories();
-  return categories.map((category) => ({
-    category: category?.handle
-  }));
-}
+// export async function generateStaticParams() {
+//   const agent = new https.Agent({
+//     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
+//   });
+
+//   const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=handle,title`;
+//   const res = await fetch(url, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'X-Shopify-Access-Token': `${storeToken}`
+//     },
+//     next: { revalidate: 300 },
+//     agent
+//   });
+//   const data = await res.json();
+//   return data?.custom_collections.map((category) => ({
+//     category: category?.handle
+//   }));
+// }
 
 
 //
-async function fetchCategory(categoryHandle) {
+export async function fetchCategory(categoryHandle) {
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
@@ -27,8 +41,8 @@ async function fetchCategory(categoryHandle) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
-    cache: 'no-cache',
-    // next: { revalidate: 10 },
+    // cache: 'no-cache',
+    next: { revalidate: 10 },
     agent
   });
   const data = await res.json();
@@ -42,9 +56,8 @@ async function fetchCategory(categoryHandle) {
   return selectedCategory;
 }
 
-export default async function Category({ params }) {
-  generateStaticParams();
-  const category = await fetchCategory(params?.category);
+export default async function Category(props) {
+  const category = await fetchCategory(props?.params?.category);
 
   if (isEmpty(category)) {
     return (<div>Collection not found</div>)
