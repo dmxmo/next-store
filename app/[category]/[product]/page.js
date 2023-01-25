@@ -44,10 +44,7 @@ async function fetchProduct(id) {
 export default async function ProductPage({ params }) {
   // get id from the url
   const id = params?.product.split('_').pop();
-  if (isEmpty(id)) {
-    return (<div>Product not found</div>)
-  }
-
+  
   // fetch product
   const product = await fetchProduct(id);
 
