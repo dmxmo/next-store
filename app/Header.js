@@ -17,8 +17,7 @@ async function getCategories() {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
-    // cache: 'no-cache',
-    // next: { revalidate: 10 },
+    next: { revalidate: 300 },
     agent
   });
   const data = await res.json();
@@ -36,7 +35,7 @@ export default async function Header() {
       </Link>)
     });
   }
-  
+
   return (
     <div className={styles.header}>
       <div className={styles.logo}>
