@@ -17,7 +17,7 @@ export async function fetchCategories() {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
-    // cache: 'no-cache',
+    cache: 'no-cache',
     // next: { revalidate: 300 },
     agent
   });
