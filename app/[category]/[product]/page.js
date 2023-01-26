@@ -2,21 +2,23 @@ import styles from "./page.module.css";
 import https from 'https';
 import Image from "next/image";
 import { storeName, storeToken } from '@/utils/shopify';
-import { isEmpty } from "lodash";
+import { isEmpty, template } from "lodash";
 import { fetchProducts } from "../ProductsList";
 import { fetchCategory } from "../page.js";
 
 //
-export async function generateStaticParams({ params: { category } }) {
-  // Note: params are passed down from the parent generateStaticParams() to here
-  const thisCategory = await fetchCategory(category);
-  const products = await fetchProducts(thisCategory?.id);
-  return products?.map((product) => ({
-    category: thisCategory?.handle,
-    product: `${product?.handle}_${product?.id}`
-  }));
+// export async function generateStaticParams({ params: { category } }) {
+//   // Note: params are passed down from the parent generateStaticParams() to here
+//   const thisCategory = await fetchCategory(category);
+//   const products = await fetchProducts(thisCategory?.id);
+//   return products?.map((product) => ({
+//     category: thisCategory?.handle,
+//     product: `${product?.handle}_${product?.id}`
+//   }));
   
-}
+// }
+
+/// TODO: move this to template.ks
 
 //
 async function fetchProduct(id) {
