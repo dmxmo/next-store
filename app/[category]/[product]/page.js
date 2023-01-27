@@ -43,9 +43,9 @@ async function fetchProduct(id) {
   return data?.product;
 }
 
-export default async function ProductPage({ params }) {
+export default async function ProductPage(props) {
   // get id from the url
-  const id = params?.product.split('_').pop();
+  const id = props?.params?.product.split('_').pop();
 
   // fetch product
   const product = await fetchProduct(id);
