@@ -7,7 +7,7 @@ import { fetchCategories } from '../Header';
 // ... this is using top-bottom approach: https://beta.nextjs.org/docs/api-reference/generate-static-params#generate-segments-from-the-top-down
 export async function generateStaticParams() {
   const categories = await fetchCategories();
-  return categories.map((category) => ({
+  return categories?.map((category) => ({
     category: category?.handle
   }));
 }
