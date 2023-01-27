@@ -57,7 +57,10 @@ export async function fetchProducts(collectionId) {
 
 export default async function Category({ params }) {
   const category = await fetchCategory(params?.category);
+  // timeout for 1 second before fetching products
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const products = await fetchProducts(category?.id);
+
 
   return (
     <>
