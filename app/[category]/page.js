@@ -32,14 +32,37 @@ export async function fetchCategory(categoryHandle) {
   return selectedCategory;
 }
 
+export async function fetchProducts(collectionId) {
+  const agent = new https.Agent({
+    rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
+  });
+
+  // make a request
+  const url = `https://${storeName}.myshopify.com/admin/api/2023-01/products.json?collection_id=${collectionId}&fields=id,title,handle,description,image`;
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Access-Token': `${storeToken}`,
+    },
+    // cache: 'no-cache',
+    // next: { revalidate: 300 },
+    agent
+  });
+  const data = await res.json();
+
+  return data?.products;
+}
+
 export default async function Category({ params }) {
   const category = await fetchCategory(params?.category);
+  const products = await fetchProducts(category?.id);
 
   return (
     <>
       <h1>{category?.title}</h1>
       <p>{category?.body_html}</p>
-      <ProductsList category={category} />
+      <ProductsList category={category} products={products} />
     </>
   )
 }
