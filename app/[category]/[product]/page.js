@@ -5,6 +5,7 @@ import { storeName, storeToken } from '@/utils/shopify';
 import { isEmpty, template } from "lodash";
 import { fetchProducts } from "../ProductsList";
 import { fetchCategory } from "../page.js";
+import { Suspense } from "react";
 
 //
 // export async function generateStaticParams({ params: { category } }) {
@@ -34,7 +35,7 @@ async function fetchProduct(id) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`,
     },
-    cache: 'no-cache',
+    // cache: 'no-cache',
     // next: { revalidate: 10 },
     // agent
   });
@@ -43,9 +44,9 @@ async function fetchProduct(id) {
   return data?.product;
 }
 
-export default async function ProductPage(props) {
+export default async function ProductPage({ params }) {
   // get id from the url
-  const id = props?.params?.product.split('_').pop();
+  const id = params?.product.split('_').pop();
 
   // fetch product
   const product = await fetchProduct(id);
@@ -59,7 +60,7 @@ export default async function ProductPage(props) {
   }
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <div>
         <h1 className={styles.title}>{product?.title}</h1>
         <p>{product?.body_html}</p>
@@ -67,6 +68,6 @@ export default async function ProductPage(props) {
         {buyButton}
       </div>
       <Image src={product?.image?.src} width={product?.image?.width} height={product?.image?.height} alt={product?.title} />
-    </>
+    </Suspense>
   )
 }
