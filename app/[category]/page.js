@@ -3,6 +3,7 @@ import { storeName, storeToken } from '@/utils/shopify';
 import ProductsList from './ProductsList';
 import { isEmpty } from "lodash";
 
+import { Suspense } from 'react';
 //
 export async function fetchCategory(categoryHandle) {
   const agent = new https.Agent({
@@ -62,7 +63,9 @@ export default async function Category({ params }) {
     <>
       <h1>{category?.title}</h1>
       <p>{category?.body_html}</p>
-      <ProductsList category={category} products={products} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProductsList category={category} products={products} />
+      </Suspense>
     </>
   )
 }
