@@ -47,7 +47,7 @@ export async function fetchProducts(collectionId) {
       'X-Shopify-Access-Token': `${storeToken}`,
     },
     // cache: 'no-cache',
-    // next: { revalidate: 300 },
+    next: { revalidate: 10 },
     agent
   });
   const data = await res.json();
@@ -55,16 +55,16 @@ export async function fetchProducts(collectionId) {
   return data?.products;
 }
 
-export default async function Category(props) {
-  const category = await fetchCategory(props?.params?.category);
-  const products = await fetchProducts(category?.id);
+export default async function Category({ params }) {
+  const category = await fetchCategory(params?.category);
+  // const products = await fetchProducts(category?.id);
 
   return (
     <>
       <h1>{category?.title}</h1>
       <p>{category?.body_html}</p>
       <Suspense fallback={<div>Loading...</div>}>
-        <ProductsList category={category} products={products} />
+        {/* <ProductsList category={category} products={products} /> */}
       </Suspense>
     </>
   )
