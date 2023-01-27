@@ -57,14 +57,14 @@ export async function fetchProducts(collectionId) {
 
 export default async function Category({ params }) {
   const category = await fetchCategory(params?.category);
-  // const products = await fetchProducts(category?.id);
+  const products = await fetchProducts(category?.id);
 
   return (
     <>
       <h1>{category?.title}</h1>
       <p>{category?.body_html}</p>
       <Suspense fallback={<div>Loading...</div>}>
-        {/* <ProductsList category={category} products={products} /> */}
+        <ProductsList category={category} products={products} />
       </Suspense>
     </>
   )
