@@ -36,7 +36,7 @@ export default async function ProductsList(props) {
 
   // build product cards
   const productCards = products?.map(product => {
-    const productUrl = (`${props?.category?.handle}/${product?.handle}_${product?.id}`);
+    const productUrl = (`/${props?.category?.handle}/${product?.handle}_${product?.id}`);
     return (
       <ProductCard key={product?.id} url={productUrl} product={product} />
     )

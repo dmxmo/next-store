@@ -18,7 +18,7 @@ export async function fetchCategory(categoryHandle) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`
     },
-    // cache: 'no-cache',
+    cache: 'no-cache',
     // next: { revalidate: 10 },
     agent
   });
@@ -46,8 +46,8 @@ export async function fetchProducts(collectionId) {
       'Content-Type': 'application/json',
       'X-Shopify-Access-Token': `${storeToken}`,
     },
-    // cache: 'no-cache',
-    next: { revalidate: 10 },
+    cache: 'no-cache',
+    // next: { revalidate: 10 },
     agent
   });
   const data = await res.json();
