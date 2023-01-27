@@ -1,4 +1,5 @@
-import { fetchProducts } from "../ProductsList";
+// import { fetchProducts } from "../ProductsList";
+import { fetchProducts } from "../page.js";
 import { fetchCategory } from "../page.js";
 
 //
