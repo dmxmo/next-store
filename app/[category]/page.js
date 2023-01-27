@@ -20,7 +20,7 @@ export async function fetchCategory(categoryHandle) {
     },
     cache: 'no-cache',
     // next: { revalidate: 10 },
-    agent
+    // agent
   });
   const data = await res.json();
 
@@ -48,7 +48,7 @@ export async function fetchProducts(collectionId) {
     },
     cache: 'no-cache',
     // next: { revalidate: 10 },
-    agent
+    // agent
   });
   const data = await res.json();
 

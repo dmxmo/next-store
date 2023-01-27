@@ -2,6 +2,7 @@ import './globals.css'
 import https from 'https';
 import { storeName, storeToken } from '@/utils/shopify';
 import Header from './Header'
+import { Suspense } from 'react';
 
 export async function fetchCategories() {
   const agent = new https.Agent({
@@ -16,8 +17,8 @@ export async function fetchCategories() {
       'X-Shopify-Access-Token': `${storeToken}`
     },
     // cache: 'no-cache',
-    next: { revalidate: 10 },
-    agent
+    // next: { revalidate: 10 },
+    // agent
   });
   const data = await res.json();
   return data?.custom_collections;
@@ -33,7 +34,9 @@ export default async function RootLayout({ children }) {
       */}
       <head />
       <body>
+        <Suspense fallback={<div>Loading...</div>}>
         <Header categories={categories} />
+        </Suspense>
         <main>
           {children}
         </main>

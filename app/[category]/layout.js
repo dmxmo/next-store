@@ -27,7 +27,7 @@ export async function generateStaticParams() {
     },
     // cache: 'no-cache',
     // next: { revalidate: 300 },
-    agent
+    // agent
   });
   
   const data = await res.json();

@@ -36,7 +36,7 @@ async function fetchProduct(id) {
     },
     cache: 'no-cache',
     // next: { revalidate: 10 },
-    agent
+    // agent
   });
   const data = await res.json();
 
