@@ -1,14 +1,9 @@
 import './globals.css'
-import https from 'https';
 import { storeName, storeToken } from '@/utils/shopify';
 import Header from './Header'
 import { Suspense } from 'react';
 
 export async function fetchCategories() {
-  const agent = new https.Agent({
-    rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
-  });
-
   const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=handle,title`;
   const res = await fetch(url, {
     method: 'GET',
@@ -17,8 +12,7 @@ export async function fetchCategories() {
       'X-Shopify-Access-Token': `${storeToken}`
     },
     // cache: 'no-cache',
-    // next: { revalidate: 10 },
-    // agent
+    next: { revalidate: 300 },
   });
   const data = await res.json();
   return data?.custom_collections;
@@ -35,7 +29,7 @@ export default async function RootLayout({ children }) {
       <head />
       <body>
         <Suspense fallback={<div>Loading...</div>}>
-        <Header categories={categories} />
+          <Header categories={categories} />
         </Suspense>
         <main>
           {children}

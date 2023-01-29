@@ -2,7 +2,7 @@
 import { fetchProducts } from "../page.js";
 import { fetchCategory } from "../page.js";
 import { storeName, storeToken } from '@/utils/shopify';
-
+/*
 //
 export async function generateStaticParams({ params: { category } }) {
   // Note: params are passed down from the parent generateStaticParams() to here
@@ -52,7 +52,7 @@ export async function generateStaticParams({ params: { category } }) {
   }));
   
 }
-
+*/
 // need to create [category]/layout.js to add generateStaticParams()
 export default function ProductLayout({ children }) {
   return (children)

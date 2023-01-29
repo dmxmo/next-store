@@ -1,4 +1,3 @@
-// import { fetchCategories } from '../Header';
 import https from 'https';
 import { storeName, storeToken } from '@/utils/shopify';
 
@@ -8,12 +7,6 @@ import { storeName, storeToken } from '@/utils/shopify';
 // ... https://github.com/vercel/next.js/issues/42840
 // ... this is using top-bottom approach: https://beta.nextjs.org/docs/api-reference/generate-static-params#generate-segments-from-the-top-down
 export async function generateStaticParams() {
-  // const categories = await fetchCategories();
-  // return categories?.map((category) => ({
-  //   category: category?.handle
-  // }));
-
-
   const agent = new https.Agent({
     rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
   });
@@ -26,8 +19,7 @@ export async function generateStaticParams() {
       'X-Shopify-Access-Token': `${storeToken}`
     },
     // cache: 'no-cache',
-    // next: { revalidate: 300 },
-    // agent
+    next: { revalidate: 300 },
   });
   
   const data = await res.json();
