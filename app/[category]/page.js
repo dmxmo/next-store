@@ -4,26 +4,6 @@ import ProductsList from './ProductsList';
 import { isEmpty } from "lodash";
 import { Suspense } from 'react';
 
-export async function generateStaticParams() {
-
-  const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=handle,title`;
-  const res = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Shopify-Access-Token': `${storeToken}`
-    },
-    // cache: 'no-cache',
-    next: { revalidate: 300 },
-  });
-  
-  const data = await res.json();
-  const categories = data?.custom_collections;
-  return categories?.map((category) => ({
-    category: category?.handle
-  }));
-}
-
 //
 export async function fetchCategory(categoryHandle) {
   // make a request
