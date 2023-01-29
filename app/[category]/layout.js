@@ -1,4 +1,3 @@
-import https from 'https';
 import { storeName, storeToken } from '@/utils/shopify';
 
 // !IMPORTANT: not sure if this is a bug or feature
@@ -7,10 +6,6 @@ import { storeName, storeToken } from '@/utils/shopify';
 // ... https://github.com/vercel/next.js/issues/42840
 // ... this is using top-bottom approach: https://beta.nextjs.org/docs/api-reference/generate-static-params#generate-segments-from-the-top-down
 export async function generateStaticParams() {
-  const agent = new https.Agent({
-    rejectUnauthorized: false // bypasses the SSL certificate check, not recommended for production
-  });
-
   const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=handle,title`;
   const res = await fetch(url, {
     method: 'GET',
@@ -31,5 +26,5 @@ export async function generateStaticParams() {
 
 // need to create [category]/layout.js to add generateStaticParams()
 export default function CategoryLayout({ children }) {
-  return (children)
+  return (children);
 }
