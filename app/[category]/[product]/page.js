@@ -6,26 +6,11 @@ import { isEmpty, template } from "lodash";
 import { fetchProducts } from "../ProductsList";
 import { fetchCategory } from "../page.js";
 import { Suspense } from "react";
+import BuyButton from "./BuyButton";
 
 //
 export async function generateStaticParams({ params: { category } }) {
   // Note: params are passed down from the parent generateStaticParams() to here
-  // const thisCategory = await fetchCategory(category);
-  // const products = await fetchProducts(thisCategory?.id);
-  // return products?.map((product) => ({
-  //   // category: thisCategory?.handle,
-  //   // product: `${product?.handle}_${product?.id}`
-  //   category: 'baroque',
-  //   product: 'girl-with-a-pearl-earring-johannes-vermeer_8088194711833'
-  // }));
-  // return [{
-  //   // category: thisCategory?.handle,
-  //   // product: `${product?.handle}_${product?.id}`
-  //   category: 'baroque',
-  //   product: 'girl-with-a-pearl-earring-johannes-vermeer_8088194711833'
-  // }];
-
-
   // make a request
   const url = `https://${storeName}.myshopify.com/admin/api/2023-01/custom_collections.json?fields=id,handle,title,body_html`;
   const res = await fetch(url, {
@@ -61,8 +46,6 @@ export async function generateStaticParams({ params: { category } }) {
     category: selectedCategory?.handle,
     product: `${product?.handle}_${product?.id}`
   }));
-
-
 }
 
 //
@@ -94,13 +77,8 @@ export default async function ProductPage({ params }) {
   // fetch product
   const product = await fetchProduct(id);
 
-  // create buy button
+  // variant id for buy button
   const variantId = product?.variants[0]?.id;
-  let buyButton = null;
-  if (variantId) {
-    const checkoutUrl = `https://${storeName}.myshopify.com/cart/${variantId}:1`;
-    buyButton = <a href={checkoutUrl}><button type="button" className={styles.button}>PURCHASE</button></a>;
-  }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -108,7 +86,7 @@ export default async function ProductPage({ params }) {
         <h1 className={styles.title}>{product?.title}</h1>
         <p>{product?.body_html}</p>
         <h3 className={styles.price}>${product?.variants[0]?.price}</h3>
-        {buyButton}
+        <BuyButton variantId={variantId} />
       </div>
       <Image src={product?.image?.src} width={product?.image?.width} height={product?.image?.height} alt={product?.title} />
     </Suspense>
