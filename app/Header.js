@@ -16,6 +16,7 @@ export default function Header({ categories }) {
   useEffect(() => {
     if (lastCheckoutUrl) {
       if (redirectBackToCheckout !== null && redirectBackToCheckout == 'yes') {
+        deleteCookie('lastCheckoutUrl');
         window.location.replace(lastCheckoutUrl);
       }
       else {
