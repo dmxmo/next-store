@@ -10,6 +10,7 @@ export default function Header({ categories }) {
   const searchParams = useSearchParams(); // https://beta.nextjs.org/docs/api-reference/use-search-params
 
   // Work around for Shopify's Dev mode password protection
+  // ... see Shopify>Themes>theme.liquid:296
   const redirectBackToCheckout = searchParams.get('store-logged-in');
   const lastCheckoutUrl = getCookie('lastCheckoutUrl');
   useEffect(() => {
